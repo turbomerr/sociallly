@@ -1,13 +1,13 @@
 import Link from "next/link";
 import DesktopNavbar from "./DesktopNavbar";
-// import MobileNavbar from "./MobileNavbar";
+import MobileNavbar from "./MobileNavbar";
 
 
 
 function Navbar() {
 
     return (
-        <header className="sticky top-8 z-50">
+        <header className="sticky top-8 z-50 mx-4">
             <div className="mx-auto w-full max-w-[1200px] rounded-xl border border-green-500 bg-card
                   flex h-16 items-center justify-between px-4">
                     <div className="flex items-center">
@@ -16,6 +16,7 @@ function Navbar() {
                         </Link>
                     </div>
                     <DesktopNavbar/>
+                    <MobileNavbar/>
             </div>
         </header>
     );
