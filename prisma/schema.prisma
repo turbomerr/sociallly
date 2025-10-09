@@ -32,13 +32,13 @@ model User{
   //Relations : one-to-many
   posts Post[]
   comments Comment[]
-  likes Like[]
+  // likes Like[]
 
-  followers Follows[] @relation("following") //users who follow this user
-  following Follows[] @relation("follower") //users this user follows
+  // followers Follows[] @relation("following") //users who follow this user
+  // following Follows[] @relation("follower") //users this user follows
 
-  notifications Notification[] @relation("userNotifications") //notification recieved by a user
-  notificationsCreated Notification[] @relation("notificationCreator") //notifications triggered by a user
+  // notifications Notification[] @relation("userNotifications") //notification recieved by a user
+  // notificationsCreated Notification[] @relation("notificationCreator") //notifications triggered by a user
   
 }
 
@@ -52,8 +52,8 @@ model Post{
   //Relations
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade) //delete all posts if user deleted
   comments Comment[]
-  likes Like[]
-  notifications Notification[]
+  // likes Like[]
+  // notifications Notification[]
 }
 
 model Comment{
