@@ -7,7 +7,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  
 }
 
 datasource db {
@@ -29,12 +29,42 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  //relations
-  // posts Post[]
-  // comments Comment[]
-  // likes Like[]
-  // followers Follows[] @relation("following")
-  // following Follows[]
-  // notifications Notification[]
-  // notificationsCreated Notification[]
+  //Relations : one-to-many
+  posts Post[]
+  comments Comment[]
+  likes Like[]
+
+  followers Follows[] @relation("following") //users who follow this user
+  following Follows[] @relation("follower") //users this user follows
+
+  notifications Notification[] @relation("userNotifications") //notification recieved by a user
+  notificationsCreated Notification[] @relation("notificationCreator") //notifications triggered by a user
+  
+}
+
+model Post{
+  id String @id @default(cuid())
+  authorId String
+  content String?
+  image String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  //Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade) //delete all posts if user deleted
+  comments Comment[]
+  likes Like[]
+  notifications Notification[]
+}
+
+model Comment{
+  id String @id @default(cuid())
+  content String
+  authorId String
+  postId String
+  createdAt DateTime @default(now())
+
+  //Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references : [id], onDelete: Cascade)
+
 }
