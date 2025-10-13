@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Image } from 'lucide-react';
 import { Spinner } from "@/components/ui/spinner"
 import { Send } from 'lucide-react';
+import { createPost } from "@/actions/post.action"
+import toast from "react-hot-toast"
 
 function CreatePost() {
 
@@ -17,7 +19,23 @@ function CreatePost() {
     const [isPosting, setIsPosting] = useState(false);
     const [showImageUpload, setShowImageUpload] = useState(false);
 
-    const handleSubmit = async () => { }
+    const handleSubmit = async () => {
+        setIsPosting(true)
+        try {
+            const res = await createPost(content, imageUrl)
+            if(res?.success){
+                setContent("")
+                setImageUrl("")
+                setShowImageUpload(false);
+                toast.success("Post created successfully")
+            }
+        } catch (error) {
+            console.log("Error by creating post", error)
+            toast.error("Error by creating post")
+        }finally{
+            setIsPosting(false)
+        }
+    }
     return (
         <div className="border bg-transparent rounded-lg px-4 py-6">
             <div className="flex space-x-4">
@@ -47,7 +65,7 @@ function CreatePost() {
                 <Button className="flex items-center "
                     variant="outline"
                     onClick={handleSubmit}
-                    disabled={!content.trim() && !imageUrl || isPosting}>
+                    disabled={(!content.trim() && !imageUrl) || isPosting}>
                     {isPosting ? (<>
                         <Spinner className="size-4 mr-2" />
                     </>) : (<>
