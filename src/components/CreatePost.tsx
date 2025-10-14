@@ -10,6 +10,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { Send } from 'lucide-react';
 import { createPost } from "@/actions/post.action"
 import toast from "react-hot-toast"
+import ImageUpload from "./ImageUpload"
 
 function CreatePost() {
 
@@ -38,7 +39,7 @@ function CreatePost() {
     }
     return (
         <div className="border bg-transparent rounded-lg px-4 py-6">
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-4">
                 <Avatar className="w-12 h-12">
                     <AvatarImage src={user?.imageUrl} />
                 </Avatar>
@@ -48,7 +49,18 @@ function CreatePost() {
                     onChange={(e) => setContent(e.target.value)}
                     disabled={isPosting} />
             </div>
-            {/* To Do Handle image upload */}
+           {(showImageUpload || imageUrl) && (
+            <div className="border rounded-lg p-4">
+              <ImageUpload
+                endpoint="postImage"
+                value={imageUrl}
+                onChange={(url) => {
+                  setImageUrl(url);
+                  if (!url) setShowImageUpload(false);
+                }}
+              />
+            </div>
+          )}
             <Separator className="mt-6" />
             <div className="flex items-center justify-between mt-4" >
                 <div className="flex space-x-2">
