@@ -16,7 +16,7 @@ function ImageUpload({ onChange, value, endpoint }: uploadPromps) {
         <img src={value} alt="Upload" className="rounded-md size-40 object-cover" />
         <button
           onClick={() => onChange("")}
-          className="absolute top-0 right-0 p-1 bg-red-500 rounded-full shadow-sm"
+          className="absolute top-0 right-0 p-1 bg-gray-500 rounded-full shadow-sm"
           type="button"
         >
           <X className="h-4 w-4 text-white" />
