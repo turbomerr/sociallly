@@ -27,3 +27,54 @@ export async function createPost(content : string, image : string): Promise<Crea
         return {success : false, error : "Failed to create a post"}
     }
 }
+
+export async function getPost() {
+    try {
+        const posts = await prisma.post.findMany({
+            orderBy : {
+                createdAt : "desc"
+            },
+            include : { //postu paylasan user 
+                author : {
+                    select : {
+                        id : true,
+                        name : true,
+                        image : true,
+                        username : true
+                    }
+                },
+                comments : { // postun icindeki yorumlari yapan user 
+                    include : {
+                        author : {
+                            select : {
+                                id : true,
+                                username : true,
+                                image : true,
+                                name : true
+                            }
+                        }
+                    },
+                    orderBy : { // yorumlari eskiden yeni gore siralar
+                        createdAt : "asc"
+                    }
+                },
+                likes : { //post taki like lari alir
+                    select : {
+                        userId : true
+                    }
+                },
+                _count : { //postun like ve comment lerinin sayisini hesaplar
+                    select : {
+                        likes : true,
+                        comments : true
+                    }
+                }
+            }
+        })
+        return posts;
+        
+    } catch (error) {
+        console.log(error)
+        return {success : false, error: "Error in getPost"}
+    }
+}
